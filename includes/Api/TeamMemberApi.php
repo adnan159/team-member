@@ -2,6 +2,8 @@
 
 namespace Team\Member\Api;
 
+use Team\Member\App\Members;
+
 class TeamMemberApi extends \WP_REST_Controller {
     public function __construct() {
         $this->namespace = 'team-member/v1';
@@ -42,8 +44,37 @@ class TeamMemberApi extends \WP_REST_Controller {
         );
     }
 
-    public function get_members() {
-        echo "Hello";  
+    public function get_members( $request ) {
+    }
+
+    public function prepare_member_for_response($order, $request) {
+        $data = [];
+        $fields = $this->get_fields_for_response($request);
+    
+        if (in_array('member_id', $fields, true)) {
+            $data['member_id'] = isset($order['member_id']) ? (int) $order['member_id'] : null;
+        }
+    
+        if (in_array('member_name', $fields, true)) {
+            $data['member_name'] = isset($order['member_name']) ? sanitize_text_field($order['member_name']) : null;
+        }
+    
+        if (in_array('member_type', $fields, true)) {
+            $data['member_type'] = isset($order['member_type']) ? sanitize_email($order['member_type']) : null;
+        }
+    
+        if (in_array('member_bio', $fields, true)) {
+            $data['member_bio'] = isset($order['member_bio']) ? sanitize_text_field($order['member_bio']) : null;
+        }
+    
+        if (in_array('member_image_url', $fields, true)) {
+            $data['member_image_url'] = isset($order['member_image_url']) ? sanitize_text_field($order['member_image_url']) : null;
+        }
+    
+        $context = !empty($request['context']) ? $request['context'] : 'view';
+        $data = $this->filter_response_by_context($data, $context);
+    
+        return $data;
     }
 
     public function permissions_check() {
