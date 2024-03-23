@@ -1,0 +1,16 @@
+{
+    "name": "team/member",
+    "description": "A plugin for manage order",
+    "autoload": {
+        "psr-4": {
+            "Team\\Member\\": "includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Osman Haider",
+            "email": "osmanhaider159@gmail.com"
+        }
+    ],
+    "require": {}
+}
