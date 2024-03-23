@@ -1,0 +1,21 @@
+.members-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.member {
+    width: calc(33.33% - 20px); /* Adjust width as needed */
+    margin-bottom: 20px;
+}
+
+.member img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.member h3, .member p {
+    text-align: center;
+    margin: 5px 0;
+}

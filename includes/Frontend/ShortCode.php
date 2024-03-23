@@ -14,12 +14,12 @@ class ShortCode {
 
         // Check if the PHP file exists
         if ( ! file_exists( $template ) ) {
-            return ''; // Return empty if the file doesn't exist
+            return ''; 
         }
 
         // Get the contents of the PHP file
-        ob_start(); // Start output buffering
-        include $template; // Include the PHP file
+        ob_start(); 
+        include $template;
         $template = ob_get_clean(); 
 
         return $template;
