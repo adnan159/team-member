@@ -93,6 +93,7 @@ final class Team_Member {
             new Team\Member\Admin();
         }
 
+        new Team\Member\API();
         new Team\Member\Frontend();
     }
 }
