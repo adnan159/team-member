@@ -13,22 +13,6 @@ class TeamMemberRegistration {
     public function __construct() {
         add_action( 'init', [$this, 'custom_post_type_team_member'] );
         add_action( 'init', [$this, 'custom_taxonomy_member_type'] );
-
-
-        global $wpdb;
-
-        $query = $wpdb->prepare("
-            SELECT t.*
-            FROM {$wpdb->terms} AS t
-            INNER JOIN {$wpdb->term_taxonomy} AS tt ON t.term_id = tt.term_id
-            INNER JOIN {$wpdb->term_relationships} AS tr ON tt.term_taxonomy_id = tr.term_taxonomy_id
-            WHERE tr.object_id = %d
-            AND tt.taxonomy = 'member_type'
-        ", 184);
-
-        // Execute the query
-        $terms = $wpdb->get_results($query);
-        error_log(print_r($terms, true));
     }
 
     /**
@@ -59,7 +43,7 @@ class TeamMemberRegistration {
             'show_ui'             => true,
             'show_in_menu'        => true,
             'query_var'           => true,
-            'rewrite'             => array( 'slug' => 'team-member' ),
+            'rewrite'             => array( 'slug' => 'team-member' ), // Rewrite slug
             'capability_type'     => 'post',
             'has_archive'         => true,
             'hierarchical'        => false,
