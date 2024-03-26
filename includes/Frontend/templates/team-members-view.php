@@ -4,31 +4,44 @@ if ( isset( $atts['members_to_show'] ) ) {
     $members_to_show = $atts['members_to_show'];
 }
 
-
+// The Query
+$args = array(
+    'post_type' => 'team_member', 
+    'posts_per_page' => -1,
+);
+$query = new WP_Query( $args );
 
 ?>
 
 <div class="members-grid">
-    <!-- Member 1 -->
-    <div class="member">
-        <img src="member1-image.jpg" alt="Member 1">
-        <h3>Member 1 Name</h3>
-        <p>Designation 1</p>
-    </div>
+    <?php
+        if ( $query->have_posts() ) {
+            while ( $query->have_posts() ) {
+            $query->the_post(); 
+            $taxonomy_terms = get_the_terms( get_the_ID(), 'member_type');
 
-    <!-- Member 2 -->
+    ?>
     <div class="member">
-        <img src="member2-image.jpg" alt="Member 2">
-        <h3>Member 2 Name</h3>
-        <p>Designation 2</p>
+        <?php the_post_thumbnail(); ?>
+        <h3><?php the_title(); ?></h3>
+        <?php
+            if ( ! is_wp_error( $taxonomy_terms ) && ! empty( $taxonomy_terms ) ) {
+            //     // Terms exist, display them
+                foreach ($taxonomy_terms as $term) {    
+                    ?>
+                    <p><?php echo $term->name; ?></p>
+                    <?php
+                }
+            } ?>
     </div>
+    
+    <?php
+            }
+        } else {
+            ?>
+            <p> No team member found! </p>
+            <?php
+        }
+    ?>
 
-    <!-- Member 3 -->
-    <div class="member">
-        <img src="member3-image.jpg" alt="Member 3">
-        <h3>Member 3 Name</h3>
-        <p>Designation 3</p>
-    </div>
-
-    <!-- Repeat for each row with 3 members -->
 </div>
